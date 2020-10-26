@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Layout from "../core/Layout";
+import { authenticate, isAuth } from "../helper/helper";
 
 const Signin = () => {
   const [values, setValues] = useState({
@@ -28,14 +29,16 @@ const Signin = () => {
     })
       .then((response) => {
         console.log("SIGNIN SUCCESS", response);
-        setValues({
-          ...values,
-          name: "",
-          email: "",
-          password: "",
-          buttonText: "Submitted",
+        authenticate(response, () => {
+          setValues({
+            ...values,
+            name: "",
+            email: "",
+            password: "",
+            buttonText: "Submitted",
+          });
+          toast.success(`Hey ${response.data.user.name}, Welcome back!`);
         });
-        toast.success(`Hey ${response.data.user.name}, Welcome back!`);
       })
       .catch((error) => {
         console.log("SIGNIN ERROR", error.response.data);
@@ -81,6 +84,7 @@ const Signin = () => {
     <Layout>
       <div className="col-md-6 offset-md-3">
         <ToastContainer />
+        {isAuth() ? <Redirect to="/" /> : null}
         <h1 className="p-5 text-center">Sign In</h1>
         {signinForm()}
       </div>
