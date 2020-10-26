@@ -10,6 +10,11 @@ function Layout({ children }) {
         </Link>
       </li>
       <li className="nav-item">
+        <Link to="/signin" className="text-light nav-link">
+          Sign In
+        </Link>
+      </li>
+      <li className="nav-item">
         <Link to="/signup" className="text-light nav-link">
           Sign Up
         </Link>

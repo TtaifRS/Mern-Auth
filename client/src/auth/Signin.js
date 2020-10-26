@@ -5,15 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Layout from "../core/Layout";
 
-const Signup = () => {
+const Signin = () => {
   const [values, setValues] = useState({
-    name: "Taif",
     email: "taif.dev73@gmail.com",
     password: "123456",
     buttonText: "Submit",
   });
 
-  const { name, email, password, buttonText } = values;
+  const { email, password, buttonText } = values;
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -24,11 +23,11 @@ const Signup = () => {
     setValues({ ...values, buttonText: "Submitting" });
     axios({
       method: "POST",
-      url: `${process.env.REACT_APP_API}/signup`,
-      data: { name, email, password },
+      url: `${process.env.REACT_APP_API}/signin`,
+      data: { email, password },
     })
       .then((response) => {
-        console.log("SIGNUP SUCCESS", response);
+        console.log("SIGNIN SUCCESS", response);
         setValues({
           ...values,
           name: "",
@@ -36,29 +35,17 @@ const Signup = () => {
           password: "",
           buttonText: "Submitted",
         });
-        toast.success(response.data.message);
+        toast.success(`Hey ${response.data.user.name}, Welcome back!`);
       })
       .catch((error) => {
-        console.log("SIGNUP ERROR", error.response.data);
+        console.log("SIGNIN ERROR", error.response.data);
         setValues({ ...values, buttonText: "Submit" });
         toast.error(error.response.data.error);
       });
   };
 
-  const signupForm = () => (
+  const signinForm = () => (
     <form>
-      <div className="form-group">
-        <label htmlFor="name" className="text-muted">
-          name
-        </label>
-        <input
-          onChange={handleChange("name")}
-          value={name}
-          type="text"
-          className="form-control"
-        />
-      </div>
-
       <div className="form-group">
         <label htmlFor="email" className="text-muted">
           email
@@ -94,11 +81,11 @@ const Signup = () => {
     <Layout>
       <div className="col-md-6 offset-md-3">
         <ToastContainer />
-        <h1 className="p-5 text-center">Sign Up</h1>
-        {signupForm()}
+        <h1 className="p-5 text-center">Sign In</h1>
+        {signinForm()}
       </div>
     </Layout>
   );
 };
 
-export default Signup;
+export default Signin;
