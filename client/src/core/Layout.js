@@ -12,7 +12,7 @@ function Layout({ children, match, history }) {
   };
 
   const nav = () => (
-    <ui className="nav nav-tabs bg-primary">
+    <ul className="nav nav-tabs bg-primary">
       <li className="nav-item">
         <Link to="/" className=" nav-link" style={isActive("/")}>
           Home
@@ -40,11 +40,22 @@ function Layout({ children, match, history }) {
           </li>
         </Fragment>
       )}
-      {isAuth() && (
+      {isAuth() && isAuth().role === "admin" && (
         <li className="nav-item">
-          <span className="nav-link">{isAuth().name}</span>
+          <Link to="/admin" className="nav-link" style={isActive("/admin")}>
+            {isAuth().name}
+          </Link>
         </li>
       )}
+
+      {isAuth() && isAuth().role === "subscriber" && (
+        <li className="nav-item">
+          <Link to="/private" className="nav-link" style={isActive("/private")}>
+            {isAuth().name}
+          </Link>
+        </li>
+      )}
+
       {isAuth() && (
         <li className="nav-item">
           <span
@@ -58,7 +69,7 @@ function Layout({ children, match, history }) {
           </span>
         </li>
       )}
-    </ui>
+    </ul>
   );
   return (
     <Fragment>
