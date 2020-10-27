@@ -8,6 +8,7 @@ require("dotenv").config();
 
 //import
 const authRoute = require("./routes/auth");
+const userRoute = require("./routes/user");
 
 //db connect
 mongoose
@@ -31,6 +32,7 @@ if ((process.env.NODE_ENV = "development")) {
 
 //middleware
 app.use("/api", authRoute);
+app.use("/api", userRoute);
 
 const port = process.env.PORT || 5000;
 

@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const expressJwt = require("express-jwt");
 const jwt = require("jsonwebtoken");
 const sgMail = require("@sendgrid/mail");
 
@@ -139,3 +140,8 @@ exports.signin = (req, res) => {
     });
   });
 };
+
+exports.requireSignin = expressJwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+});
