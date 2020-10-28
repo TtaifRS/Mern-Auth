@@ -8,6 +8,7 @@ const {
   signin,
   forgetPassword,
   resetPassword,
+  googleLogin,
 } = require("../controllers/auth");
 const {
   userSignUpValidator,
@@ -32,5 +33,8 @@ router.put(
   runValidation,
   resetPassword
 );
+
+//google and facebook login
+router.post("/google-login", googleLogin);
 
 module.exports = router;

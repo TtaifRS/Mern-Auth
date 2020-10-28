@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import GoogleAuth from "./GoogleAuth";
 import Layout from "../core/Layout";
 import { authenticate, isAuth } from "../helper/helper";
 
@@ -15,6 +16,13 @@ const Signin = ({ history }) => {
 
   const { email, password, buttonText } = values;
 
+  const googleSaveUser = (response) => {
+    authenticate(response, () => {
+      isAuth() && isAuth().role === "admin"
+        ? history.push("/admin")
+        : history.push("/private");
+    });
+  };
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
@@ -89,6 +97,7 @@ const Signin = ({ history }) => {
         {isAuth() ? <Redirect to="/" /> : null}
         <h1 className="p-5 text-center">Sign In</h1>
         {signinForm()}
+        <GoogleAuth googleSaveUser={googleSaveUser} />
         <br />
         <Link
           to="/auth/password/forget"
