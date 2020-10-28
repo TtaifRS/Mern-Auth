@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -8,9 +8,9 @@ import { isAuth } from "../helper/helper";
 
 const Signup = () => {
   const [values, setValues] = useState({
-    name: "Taif",
-    email: "taif.dev73@gmail.com",
-    password: "123456",
+    name: "",
+    email: "",
+    password: "",
     buttonText: "Submit",
   });
 
