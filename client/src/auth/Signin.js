@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -89,6 +89,13 @@ const Signin = ({ history }) => {
         {isAuth() ? <Redirect to="/" /> : null}
         <h1 className="p-5 text-center">Sign In</h1>
         {signinForm()}
+        <br />
+        <Link
+          to="/auth/password/forget"
+          className="btn btn-sm btn-outline-danger"
+        >
+          Forget Password
+        </Link>
       </div>
     </Layout>
   );

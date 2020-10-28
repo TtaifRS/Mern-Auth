@@ -6,6 +6,8 @@ import Signin from "./auth/Signin";
 import Activate from "./auth/Activae";
 import PrivateRoute from "./auth/PrivateRoute";
 import AdminRoute from "./auth/AdminRoute";
+import ForgetPassword from "./auth/ForgetPassword";
+import ResetPassword from "./auth/ResetPassword";
 import Private from "./core/Private";
 import Admin from "./core/Admin";
 
@@ -17,6 +19,8 @@ function Routes() {
         <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
         <Route path="/auth/activate/:token" component={Activate} />
+        <Route path="/auth/password/forget" component={ForgetPassword} />
+        <Route path="/auth/password/reset/:token" component={ResetPassword} />
         <PrivateRoute path="/private" component={Private} />
         <AdminRoute path="/admin" component={Admin} />
       </Switch>
