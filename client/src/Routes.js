@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import App from "./App";
 import Signup from "./auth/Signup";
 import Signin from "./auth/Signin";
-import Activate from "./auth/Activae";
+import Activate from "./auth/Activate";
 import PrivateRoute from "./auth/PrivateRoute";
 import AdminRoute from "./auth/AdminRoute";
 import ForgetPassword from "./auth/ForgetPassword";
@@ -19,7 +19,7 @@ function Routes() {
         <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
         <Route path="/auth/activate/:token" component={Activate} />
-        <Route path="/auth/password/forget" component={ForgetPassword} />
+        <Route path="/auth/password/forgot" component={ForgetPassword} />
         <Route path="/auth/password/reset/:token" component={ResetPassword} />
         <PrivateRoute path="/private" component={Private} />
         <AdminRoute path="/admin" component={Admin} />

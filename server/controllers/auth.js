@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const sgMail = require("@sendgrid/mail");
 const _ = require("lodash");
 const { OAuth2Client } = require("google-auth-library");
-const { response } = require("express");
+const fetch = require("node-fetch");
 
 sgMail.setApiKey(process.env.SENDGRID_API);
 
@@ -323,5 +323,66 @@ exports.googleLogin = (req, res) => {
           error: "Google login failed, try again!",
         });
       }
+    });
+};
+
+//facebook oAuth
+exports.facebookLogin = (req, res) => {
+  const { userID, accessToken } = req.body;
+  const url = `https://graph.facebook.com/v8.0/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+  return fetch(url, {
+    method: "GET",
+  })
+    .then((response) => response.json())
+
+    .then((response) => {
+      const { name, email } = response;
+      User.findOne({ email }).exec((err, user) => {
+        if (user) {
+          const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+          });
+          const { _id, email, name, role } = user;
+          return res.json({
+            token,
+            user: { _id, email, name, role },
+          });
+        } else {
+          function generatePassword() {
+            let length = 8,
+              charset =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+              retVal = "";
+            for (let i = 0, n = charset.length; i < length; ++i) {
+              retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            return retVal;
+          }
+          let password = generatePassword();
+          user = new User({ name, email, password });
+          user.save((err, userData) => {
+            if (err) {
+              return res.status(400).json({
+                error: "user signup failed with facebook",
+              });
+            }
+            const token = jwt.sign(
+              { _id: userData._id },
+              process.env.JWT_SECRET,
+              { expiresIn: "7d" }
+            );
+            const { _id, email, name, roll } = userData;
+            return res.json({
+              token,
+              user: { _id, email, name, roll },
+            });
+          });
+        }
+      });
+    })
+    .catch((error) => {
+      res.json({
+        error: "Facebook login failed, try again",
+      });
     });
 };

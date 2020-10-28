@@ -4,19 +4,20 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import GoogleAuth from "./GoogleAuth";
+import FacebookAuth from "./FacebookAuth";
 import Layout from "../core/Layout";
 import { authenticate, isAuth } from "../helper/helper";
 
 const Signin = ({ history }) => {
   const [values, setValues] = useState({
-    email: "taif.dev73@gmail.com",
+    email: "",
     password: "",
     buttonText: "Submit",
   });
 
   const { email, password, buttonText } = values;
 
-  const googleSaveUser = (response) => {
+  const informParent = (response) => {
     authenticate(response, () => {
       isAuth() && isAuth().role === "admin"
         ? history.push("/admin")
@@ -96,14 +97,16 @@ const Signin = ({ history }) => {
         <ToastContainer />
         {isAuth() ? <Redirect to="/" /> : null}
         <h1 className="p-5 text-center">Sign In</h1>
+        <GoogleAuth informParent={informParent} />
+        <FacebookAuth informParent={informParent} />
         {signinForm()}
-        <GoogleAuth googleSaveUser={googleSaveUser} />
+
         <br />
         <Link
-          to="/auth/password/forget"
+          to="/auth/password/forgot"
           className="btn btn-sm btn-outline-danger"
         >
-          Forget Password
+          Forgot Password
         </Link>
       </div>
     </Layout>

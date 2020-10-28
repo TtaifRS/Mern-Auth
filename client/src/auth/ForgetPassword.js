@@ -6,7 +6,7 @@ import Layout from "../core/Layout";
 
 const ForgetPassword = ({ history }) => {
   const [values, setValues] = useState({
-    email: "taif.dev73@gmail.com",
+    email: "",
     buttonText: "Forget Password",
   });
 

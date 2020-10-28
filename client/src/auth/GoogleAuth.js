@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import GoogleLogin from "react-google-login";
 
-const GoogleAuth = ({ googleSaveUser = (f) => f }) => {
+const GoogleAuth = ({ informParent = (f) => f }) => {
   const responseGoogle = (response) => {
     console.log(response.tokenId);
     axios({
@@ -12,7 +12,7 @@ const GoogleAuth = ({ googleSaveUser = (f) => f }) => {
     })
       .then((response) => {
         console.log("Google signin success", response);
-        googleSaveUser(response);
+        informParent(response);
       })
       .catch((error) => {
         console.log("Google signin error", error.response);
